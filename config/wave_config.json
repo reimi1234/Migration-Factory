@@ -1,0 +1,109 @@
+{
+  "project": "Migration-Factory",
+  "waves": [
+    {
+      "wave_name": "WAVE_1",
+      "description": "Pilot wave – low-risk development servers",
+      "planned_start": "2026-05-01",
+      "planned_cutover": "2026-05-15",
+      "servers": [
+        {
+          "server_id": "srv-001",
+          "hostname": "dev-app-01",
+          "ip_address": "10.0.1.10",
+          "os": "Amazon Linux 2",
+          "cpu_cores": 4,
+          "ram_gb": 16,
+          "disk_gb": 100,
+          "free_disk_gb": 55,
+          "reachable": true,
+          "credentials_configured": true,
+          "agent_installed": true,
+          "target_reachable": true,
+          "target_services_running": true,
+          "target_app_healthy": true,
+          "target_data_integrity": true,
+          "tags": {
+            "environment": "development",
+            "migration_strategy": "rehost",
+            "owner": "platform-team"
+          }
+        },
+        {
+          "server_id": "srv-002",
+          "hostname": "dev-db-01",
+          "ip_address": "10.0.1.11",
+          "os": "Ubuntu 22.04",
+          "cpu_cores": 8,
+          "ram_gb": 32,
+          "disk_gb": 500,
+          "free_disk_gb": 120,
+          "reachable": true,
+          "credentials_configured": true,
+          "agent_installed": true,
+          "target_reachable": true,
+          "target_services_running": true,
+          "target_app_healthy": true,
+          "target_data_integrity": true,
+          "tags": {
+            "environment": "development",
+            "migration_strategy": "replatform",
+            "owner": "data-team"
+          }
+        }
+      ]
+    },
+    {
+      "wave_name": "WAVE_2",
+      "description": "Production application servers",
+      "planned_start": "2026-06-01",
+      "planned_cutover": "2026-06-20",
+      "servers": [
+        {
+          "server_id": "srv-101",
+          "hostname": "prod-app-01",
+          "ip_address": "10.0.2.10",
+          "os": "Red Hat Enterprise Linux 8",
+          "cpu_cores": 16,
+          "ram_gb": 64,
+          "disk_gb": 200,
+          "free_disk_gb": 80,
+          "reachable": true,
+          "credentials_configured": true,
+          "agent_installed": false,
+          "target_reachable": true,
+          "target_services_running": true,
+          "target_app_healthy": true,
+          "target_data_integrity": true,
+          "tags": {
+            "environment": "production",
+            "migration_strategy": "rehost",
+            "owner": "app-team"
+          }
+        },
+        {
+          "server_id": "srv-102",
+          "hostname": "prod-app-02",
+          "ip_address": "10.0.2.11",
+          "os": "Red Hat Enterprise Linux 8",
+          "cpu_cores": 16,
+          "ram_gb": 64,
+          "disk_gb": 200,
+          "free_disk_gb": 75,
+          "reachable": true,
+          "credentials_configured": true,
+          "agent_installed": false,
+          "target_reachable": true,
+          "target_services_running": true,
+          "target_app_healthy": true,
+          "target_data_integrity": true,
+          "tags": {
+            "environment": "production",
+            "migration_strategy": "rehost",
+            "owner": "app-team"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Rehost (Lift-and-Shift) Pipeline",
+  "strategy": "rehost",
+  "version": "1.0.0",
+  "description": "Standard lift-and-shift pipeline. Replicates the source workload to the target environment with no code or configuration changes.",
+  "tasks": [
+    {
+      "task_id": "REHOST_01",
+      "name": "Install Migration Agent",
+      "type": "automated",
+      "description": "Install and configure the replication agent on the source server.",
+      "timeout_minutes": 15,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "REHOST_02",
+      "name": "Start Initial Replication",
+      "type": "automated",
+      "description": "Begin full-disk replication from source to target.",
+      "timeout_minutes": 480,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "REHOST_03",
+      "name": "Monitor Replication Progress",
+      "type": "automated",
+      "description": "Poll the replication status until lag is below the acceptable threshold.",
+      "timeout_minutes": 60,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "REHOST_04",
+      "name": "Approve Cutover",
+      "type": "manual",
+      "description": "Team lead reviews replication status and approves cutover window.",
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "REHOST_05",
+      "name": "Execute Cutover",
+      "type": "automated",
+      "description": "Stop source replication, launch target instance, and redirect traffic.",
+      "timeout_minutes": 30,
+      "on_failure": "rollback"
+    },
+    {
+      "task_id": "REHOST_06",
+      "name": "Run Post-Migration Tests",
+      "type": "automated",
+      "description": "Execute automated smoke tests against the target workload.",
+      "timeout_minutes": 20,
+      "on_failure": "rollback"
+    },
+    {
+      "task_id": "REHOST_07",
+      "name": "Confirm Success & Decommission Source",
+      "type": "manual",
+      "description": "Application owner confirms the migrated workload is healthy. Source server scheduled for decommission.",
+      "on_failure": "halt"
+    }
+  ]
+}

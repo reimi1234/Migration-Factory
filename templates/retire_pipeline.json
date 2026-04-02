@@ -1,0 +1,53 @@
+{
+  "name": "Retire Pipeline",
+  "strategy": "retire",
+  "version": "1.0.0",
+  "description": "Safely decommissions workloads that are no longer required. Includes data archival and stakeholder sign-off.",
+  "tasks": [
+    {
+      "task_id": "RETIRE_01",
+      "name": "Confirm Retirement Approval",
+      "type": "manual",
+      "description": "Application owner and business stakeholder formally approve the workload for retirement.",
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "RETIRE_02",
+      "name": "Identify Data Retention Requirements",
+      "type": "manual",
+      "description": "Review data retention policies and identify data sets requiring archival.",
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "RETIRE_03",
+      "name": "Archive Data",
+      "type": "automated",
+      "description": "Copy identified data sets to long-term cold storage (e.g. S3 Glacier, Azure Archive).",
+      "timeout_minutes": 120,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "RETIRE_04",
+      "name": "Revoke Access & Update CMDB",
+      "type": "automated",
+      "description": "Remove IAM roles, AD accounts, and firewall rules associated with the workload. Update the CMDB.",
+      "timeout_minutes": 15,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "RETIRE_05",
+      "name": "Shutdown Workload",
+      "type": "automated",
+      "description": "Stop all running processes and power off the source server/instance.",
+      "timeout_minutes": 10,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "RETIRE_06",
+      "name": "Terminate Resources",
+      "type": "manual",
+      "description": "Final sign-off before permanent resource deletion. Resources will be terminated after approval.",
+      "on_failure": "halt"
+    }
+  ]
+}

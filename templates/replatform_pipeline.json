@@ -1,0 +1,69 @@
+{
+  "name": "Replatform Pipeline",
+  "strategy": "replatform",
+  "version": "1.0.0",
+  "description": "Migrates a workload with minor optimisations, such as moving to a managed database service or containerising the application layer.",
+  "tasks": [
+    {
+      "task_id": "REPLAT_01",
+      "name": "Assessment & Target Architecture Review",
+      "type": "manual",
+      "description": "Architect reviews the source workload and confirms target architecture decisions (e.g. RDS vs self-managed DB).",
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "REPLAT_02",
+      "name": "Provision Target Infrastructure",
+      "type": "automated",
+      "description": "Deploy target infrastructure using IaC templates (e.g. CloudFormation, Terraform, or ARM).",
+      "timeout_minutes": 30,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "REPLAT_03",
+      "name": "Migrate Data to Managed Service",
+      "type": "automated",
+      "description": "Stream or bulk-load data from the source database to the target managed database service.",
+      "timeout_minutes": 240,
+      "on_failure": "halt"
+    },
+    {
+      "task_id": "REPLAT_04",
+      "name": "Deploy Application to Target",
+      "type": "automated",
+      "description": "Deploy application artefacts to the target compute layer (container image, VM image, or PaaS).",
+      "timeout_minutes": 30,
+      "on_failure": "rollback"
+    },
+    {
+      "task_id": "REPLAT_05",
+      "name": "Smoke Test in Target Environment",
+      "type": "automated",
+      "description": "Run automated smoke and integration tests against the target deployment.",
+      "timeout_minutes": 20,
+      "on_failure": "rollback"
+    },
+    {
+      "task_id": "REPLAT_06",
+      "name": "User Acceptance Testing (UAT)",
+      "type": "manual",
+      "description": "Application owner performs UAT on the target environment.",
+      "on_failure": "rollback"
+    },
+    {
+      "task_id": "REPLAT_07",
+      "name": "DNS Cutover",
+      "type": "automated",
+      "description": "Update DNS records to point to the new target environment.",
+      "timeout_minutes": 10,
+      "on_failure": "rollback"
+    },
+    {
+      "task_id": "REPLAT_08",
+      "name": "Decommission Source Environment",
+      "type": "manual",
+      "description": "After a stabilisation period, schedule source workload for decommission.",
+      "on_failure": "halt"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "environments": {
+    "source": {
+      "name": "On-Premises Data Centre",
+      "type": "on-prem",
+      "region": "us-east-1",
+      "notes": "Primary on-premises data centre to be migrated"
+    },
+    "target": {
+      "name": "AWS Production",
+      "type": "aws",
+      "region": "us-east-1",
+      "vpc_id": "vpc-REPLACE_ME",
+      "subnet_ids": [
+        "subnet-REPLACE_ME_private_a",
+        "subnet-REPLACE_ME_private_b"
+      ],
+      "security_group_ids": [
+        "sg-REPLACE_ME"
+      ],
+      "notes": "Target AWS environment – update VPC/subnet/SG IDs before use"
+    }
+  }
+}
